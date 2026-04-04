@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Marketing Agent</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    #output {
+      margin-top: 20px;
+      text-align: left;
+      white-space: pre-wrap;
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .loading {
+      margin-top: 10px;
+      font-size: 14px;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>AI Marketing Agent 🚀</h1>
+
+    <input id="topic" placeholder="Enter a topic..." />
+
+    <button onclick="generate()">Generate</button>
+
+    <div class="loading" id="loading"></div>
+
+    <pre id="output"></pre>
+  </div>
+
+  <script>
+    async function generate() {
+      const topic = document.getElementById("topic").value;
+      const output = document.getElementById("output");
+      const loading = document.getElementById("loading");
+
+      if (!topic) {
+        output.innerText = "Please enter a topic!";
+        return;
+      }
+
+      loading.innerText = "Generating...";
+      output.innerText = "";
+
+      try {
+        const res = await fetch("http://localhost:5000/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ topic })
+        });
+
+        const data = await res.json();
+
+        output.innerText = data.result;
+      } catch (err) {
+        output.innerText = "Error generating content.";
+      }
+
+      loading.innerText = "";
+    }
+  </script>
+
+</body>
+</html>

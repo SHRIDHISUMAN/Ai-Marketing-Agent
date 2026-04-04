@@ -1,0 +1,57 @@
+1.
+"https://api.openai.com/v1/chat/completions"
+
+https:// → secure internet connection
+api.openai.com → server you are talking to
+/v1/ → version of API
+/chat/completions → endpoint for AI chat responses
+
+2.
+model: "gpt-3.5-turbo",
+
+3.
+content: `Give 10 SEO keywords and 5 content ideas for: ${topic}`
+ This is your prompt
+${topic} = dynamic input
+
+Example:
+fitness for beginners
+
+4.
+Headers = extra info sent with request
+
+5.
+Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+VERY IMPORTANT
+
+Bearer = authentication type
+${process.env.OPENAI_API_KEY} = your secret key
+
+ From .env file:
+OPENAI_API_KEY=abc123...
+Without this → API will reject request
+
+6.\
+const output = response.data.choices[0].message.content;
+response.data → full response
+.choices[0] → first answer
+.message.content → actual text
+
+7.
+Sending Response to User
+res.json({
+  topic,
+  result: output
+});
+
+You send response back to frontend/Postman/ThunderClient (on vs code)
+
+8.
+res.json({
+  topic,
+  result: "Mock Output: SEO keywords and ideas for " + topic
+});
+
+Smart fallback
+
+Even if API fails: Your app still works
